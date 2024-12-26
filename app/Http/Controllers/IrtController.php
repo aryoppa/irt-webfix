@@ -24,7 +24,7 @@ class IrtController extends Controller
         ];
 
         // Make a POST request to the Python API
-        $response = Http::post('http://api.pamungkas.work/get-question', $requestData);
+        $response = Http::post('http://192.168.88.133:5000/get-question', $requestData);
 
         if ($response->successful()) {
             // Return the response data
@@ -91,11 +91,11 @@ class IrtController extends Controller
         session(['stored_payloads' => $storedPayloads]);
 
         // Send data to the Flask API
-        $response = Http::post('http://api.pamungkas.work/submit-answer', $payload);
+        $response = Http::post('http://192.168.88.133:5000/submit-answer', $payload);
         // echo '<pre>' . print_r($response->json(), true) . '</pre>';
         if ($response->ok()) {
             // Fetch the next question
-            $nextQuestion = Http::post('http://api.pamungkas.work/get-question', $response->json());
+            $nextQuestion = Http::post('http://192.168.88.133:5000/get-question', $response->json());
 
             // Increment the flag
             $flag++;
@@ -130,7 +130,7 @@ class IrtController extends Controller
 
                 // Clear the stored payloads from the session
                 // $result = Http::timeout(1000)->post('http://127.0.0.1:5000', $finalPayloads);
-                $result = Http::timeout(1000)->post('http://api.pamungkas.work/analyze-incorrect-answers', $finalPayloads);
+                $result = Http::timeout(1000)->post('http://192.168.88.133:5000/analyze-incorrect-answers', $finalPayloads);
                 session()->forget('stored_payloads');
                 
                 foreach ($result->json()['triggered_rules'] as $rules) {
