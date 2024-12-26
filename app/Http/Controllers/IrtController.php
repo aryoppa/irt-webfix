@@ -24,7 +24,7 @@ class IrtController extends Controller
         ];
 
         // Make a POST request to the Python API
-        $response = Http::post('http://localhost:5000/get-question', $requestData);
+        $response = Http::post('http://192.168.88.133:5004/get-question', $requestData);
 
         if ($response->successful()) {
             // Return the response data
