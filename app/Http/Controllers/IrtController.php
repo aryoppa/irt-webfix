@@ -24,7 +24,7 @@ class IrtController extends Controller
         ];
 
         // Make a POST request to the Python API
-        $response = Http::post('http://api.pamungkas.work/get-question', $requestData);
+        $response = Http::post('http://localhost:5000/get-question', $requestData);
 
         if ($response->successful()) {
             // Return the response data
@@ -91,7 +91,7 @@ class IrtController extends Controller
         session(['stored_payloads' => $storedPayloads]);
 
         // Send data to the Flask API
-        $response = Http::post('http://api.pamungkas.work/submit-answer', $payload);
+        $response = Http::post('http://localhost:5000/submit-answer', $payload);
         // echo '<pre>' . print_r($response->json(), true) . '</pre>';
         if ($response->ok()) {
             // Fetch the next question
