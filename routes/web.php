@@ -65,6 +65,9 @@ Route::get('/learning', [App\Http\Controllers\Admin\AdminController::class, 'lea
 
 //IRT
 Route::get('/irt/result', [App\Http\Controllers\IrtController::class, 'result']);
+
+Route::get('/irt/wrong_answer', [App\Http\Controllers\IrtController::class, 'wrong_answer']);
+
 Route::get('/irt/test', [App\Http\Controllers\IrtController::class, 'startTest']);
 Route::post('/irt/store-answers', [App\Http\Controllers\IrtController::class, 'storeAnswers'])->name('irt.storeAnswers');
 // CBT

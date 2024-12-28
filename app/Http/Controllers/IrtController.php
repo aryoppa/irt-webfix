@@ -129,7 +129,7 @@ class IrtController extends Controller
                 }
 
                 // Clear the stored payloads from the session
-                // $result = Http::timeout(1000)->post('http://127.0.0.1:5000', $finalPayloads);
+                // $result = Http::timeout(1000)->post('http://127.0.0.1:5004/analyze-incorrect-answers', $finalPayloads);
                 $result = Http::timeout(1000)->post('http://api.pamungkas.work/analyze-incorrect-answers', $finalPayloads);
                 session()->forget('stored_payloads');
                 
@@ -165,14 +165,41 @@ class IrtController extends Controller
     {
         // Fetch records from recommendations table where user_id matches
         $data = Recommendation::where('user_id', Auth::id())->latest()->first();
-
+        
         // Check if $data is null
         if (is_null($data)) {
             $data['recommendation'] = 'Untuk mendapatkan rekomendasi, silahkan lakukan tes terlebih dahulu';
         }
 
         // Return the data as JSON or pass it to a view
-        return view('pages/CBT/result_irt', ['rekomendasi' => $data]);
+        return view('pages/CBT/rekomendasi', ['rekomendasi' => $data]);
+
+    }
+    public function wrong_answer()
+    {
+        // Fetch records from recommendations table where user_id matches
+        $latestTestId = IrtResult::where('user_id', Auth::id())->latest()->first();
+        // echo '<pre>' . print_r($latestTestId, true) . '</pre>';
+        if ($latestTestId) {
+            // $latestTestId contains the latest record
+            $testId = $latestTestId->test_id;
+            // Retrieve all data for this test_id
+            $results = IrtResult::where('user_id', Auth::id())
+                ->where('is_correct', 0)
+                ->where('test_id', $testId)
+                ->get();
+            
+            // Do something with $results
+        } else {
+            // No matching records found
+            $results = [];
+        }
+        // echo '<pre>' . print_r($results->toJson(), true) . '</pre>';
+        // Check if $data is null
+        
+
+        // Return the data as JSON or pass it to a view
+        return view('pages/CBT/wrong_answers', ['results' => $results]);
 
     }
     
