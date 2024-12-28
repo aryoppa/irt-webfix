@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('test_id');
             $table->string('user_id');
-            $table->string('recommendation');
+            $table->text('recommendation');
         });
     }
 
