@@ -21,7 +21,7 @@ class AdminController extends Controller
 
     public function user_dashboard()
     {
-        $users = User::paginate(10);
+        $users = User::paginate(100);
         return view('pages/AdminPages/user_dashboard', compact(['users']));
     }
 
